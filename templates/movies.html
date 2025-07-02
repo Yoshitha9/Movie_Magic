@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Now Showing – Movie Magic</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .movie {
+            background: #222;
+            margin: 20px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        img {
+            width: 200px;
+            height: auto;
+            border-radius: 5px;
+        }
+        a {
+            background-color: #f04;
+            padding: 8px 15px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        } 
+            .book-button { background-color: #e50914;
+                color: white;
+                border: none; padding: 8px 12px; margin: 5px;
+                border-radius: 8px; font-weight: bold;
+                cursor: pointer;
+             } 
+             .book-button:hover { background-color: #c40812; } 
+        </style>
+    </style>
+</head>
+<body>
+    <h1>🎥 Now Showing</h1>
+    {% for movie in movies %}
+        <div class="movie">
+            <h2>{{ movie.title }}</h2>
+            <img src="{{ movie.poster_url }}" alt="Poster" width="200">
+            <p>Language: {{ movie.language }}</p>
+            <p>Showtimes:</p>
+           <ul>
+            {% for showtime in movie.showtimes %}
+<li> 
+    <a href="/book/{{ movie.id }}/{{ showtime }}"> <button class="book-button">Book {{ showtime }}</button> 
+    </a>
+ </li> 
+ {% endfor %}
+
+</ul>
+        </div>
+        {% endfor %}
+</body>
+</html>

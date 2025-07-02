@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Ticket – Movie Magic</title>
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            margin: auto;
+        }
+        input, select {
+            padding: 8px;
+            margin: 10px 0;
+            width: 95%;
+        }
+        button {
+            padding: 10px;
+            background-color: crimson;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        /* #enterseatnumber{ 
+            width: 98%;
+        }  */
+    </style>
+</head>
+<body>
+    <h1>🎟️ Book Ticket</h1>
+    <form method="POST">
+  <label for="seat">Enter Seat Number :</label>
+  <input type="text" id="seat" name="seat" required>
+  <button type="submit" class="btn btn-danger mt-2">Book Now</button>
+</form>
+</body>
+</html>

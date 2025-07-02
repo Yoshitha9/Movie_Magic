@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking Confirmed</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    .card {
+      max-width: 500px;
+      margin: 100px auto;
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    a { color: #ccc; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>✅ Booking Confirmed!</h2>
+    <p>🎬 <strong>Movie:</strong> {{ movie.title }}</p>
+    <p>🏢 <strong>Theatre:</strong> Movie Magic Cinemas</p>
+    <p>🕒 <strong>Showtime:</strong> {{ showtime }}</p>
+    <p>💺 <strong>Seat(s):</strong> {{ seat }}</p>
+    <p>🎫 <strong>Tickets:</strong> {{ num_tickets }}</p>
+    <p>💰 <strong>Price per Ticket:</strong> ₹{{ ticket_price }}</p>
+    <p>📄 <strong>Total Amount:</strong> ₹{{ total }}</p>
+    <br>
+    <a href="{{ url_for('movies') }}">↩ Back to Movies</a>
+  </div>
+</body>
+</html>
