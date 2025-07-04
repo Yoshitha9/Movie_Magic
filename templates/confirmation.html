@@ -32,8 +32,9 @@
     <h2>✅ Booking Confirmed!</h2>
 
     {% if movie.poster_url %}
-      <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
-    {% endif %}
+  <img src="{{ url_for('static', filename=movie.poster_url) }}" alt="{{ movie.title }}">
+{% endif %}
+
 
     <p><strong>🎬 Movie:</strong> {{ movie.title }}</p>
     <p><strong>🏢 Theatre:</strong> Movie Magic Cinemas</p>
