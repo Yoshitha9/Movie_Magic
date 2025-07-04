@@ -17,6 +17,54 @@ users_table = dynamodb.Table('Users')
 movies_table = dynamodb.Table('Movies')
 bookings_table = dynamodb.Table('Bookings')
 
+
+sample_movies = [
+    {
+        "id": 1,
+        "title": "GENTELMEN",
+        "language": "Telugu",
+        "poster_url": "/static/gentelmen.jpg",
+        "showtimes": ["11:00 AM", "2:00 PM", "5:00 PM"]
+    },
+    {
+        "id": 2,
+        "title": "MAZAKA",
+        "language": "Telugu",
+        "poster_url": "/static/mazaka.jpeg",
+        "showtimes": ["10:30 AM", "1:30 PM", "4:30 PM"]
+    },
+    {
+        "id": 3,
+        "title": "MUNNA",
+        "language": "Telugu",
+        "poster_url": "/static/munna.jpg",
+        "showtimes": ["11:30 AM", "2:30 PM", "6:30 PM"]
+    },
+    {
+        "id": 4,
+        "title": "AKASHAM LO OKA THARA",
+        "language": "Telugu",
+        "poster_url": "/static/akashamlookathara.jpeg",
+        "showtimes": ["10:00 AM", "1:00 PM", "4:00 PM"]
+    },
+    {
+        "id": 5,
+        "title": "BUSINESSMAN",
+        "language": "Telugu",
+        "poster_url": "/static/businessman.jpeg",
+        "showtimes": ["12:00 PM", "3:00 PM", "6:00 PM"]
+    },
+    {
+        "id": 6,
+        "title": "COURT: STATE VS A NOBODY",
+        "language": "Telugu",
+        "poster_url": "/static/Court_-_State_Vs_A_Nobody.jpg",
+        "showtimes": ["2:00 PM", "5:00 PM", "8:00 PM"]
+    }
+]
+
+
+
 # Send Booking Confirmation via SNS
 def send_booking_email(email, movie, showtime, seat, booking_id):
     message = f"""
