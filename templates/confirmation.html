@@ -1,43 +1,25 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
-<head>
-  <title>Booking Confirmed</title>
-  <style>
-    body {
-      background-color: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-    .confirmation-box {
-      background: #222;
-      width: 500px;
-      margin: 80px auto;
-      padding: 25px;
-      border-radius: 10px;
-      text-align: center;
-    }
-    img {
-      width: 250px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    a {
-      color: lightblue;
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div style="text-align: center;">
-  <img src="{{ url_for('static', filename='images/Court_-_State_Vs_A_Nobody.jpg') }}">
-    <h2>✅ Booking Confirmed!</h2> <p><strong>🎬 Movie:</strong> {{ movie.title }}</p> 
-    <p><strong>🏢 Theatre:</strong> Movie Magic Cinemas</p> 
-    <p><strong>🕒 Showtime:</strong> {{ showtime }}</p> 
-    <p><strong>💺 Seat(s):</strong> {{ seat }}</p> 
-    <p><strong>🎟 Tickets:</strong> {{ num_tickets }}</p> 
-    <p><strong>💰 Price per Ticket:</strong> ₹{{ ticket_price }}</p> 
-    <p><strong>📄 Total Amount:</strong> ₹{{ total }}</p> 
-    <a href="{{ url_for('movies') }}">🔁 Back to Movies</a>
-  </div>
-</body>
+  <head>
+    <title>Booking Confirmed</title>
+    <style>
+      body { background-color: #111; color: white; font-family: Arial, sans-serif; } 
+      .confirmation-box { background: #222; width: 500px; margin: 80px auto; padding: 25px; border-radius: 10px; text-align: center; }
+      img { width: 250px; border-radius: 10px; margin-bottom: 20px; } a { color: lightblue; text-decoration: underline; }
+    </style> 
+  </head>
+  <body> 
+    <div class="confirmation-box"> 
+      <img src="{{ url_for('static', filename=movie.poster_url) }}" alt="{{ movie.title }} poster"> 
+      <h2>✅ Booking Confirmed!</h2> 
+      <p><strong>🎬 Movie:</strong> {{ movie.title }}</p>
+      <p><strong>🏢 Theatre:</strong> Movie Magic Cinemas</p>
+      <p><strong>🕒 Showtime:</strong> {{ showtime }}</p>
+      <p><strong>💺 Seat(s):</strong> {{ seat }}</p>
+      <p><strong>🎟 Tickets:</strong> {{ num_tickets }}</p>
+      <p><strong>💰 Price per Ticket:</strong> ₹{{ ticket_price }}</p>
+      <p><strong>📄 Total Amount:</strong> ₹{{ total }}</p> 
+      <br> <a href="{{ url_for('movies') }}">🔁 Back to Movies</a>
+    </div>
+  </body>
 </html>
