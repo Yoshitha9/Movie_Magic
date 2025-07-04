@@ -1,58 +1,43 @@
-<!DOCTYPE html> 
-<html lang="en">
- <head>
-     <meta charset="UTF-8">
-      <title>Movie Magic</title> 
-       <style>
-        body { 
-          margin: 0;
-         background-image : url("C:\Users\P.Yoshitha\Desktop\chtgpt\moive magic\templates\landing.jpg") 
-          background-size: cover;
-           background-position: center;
-            background-repeat: no-repeat;
-             height: 100vh; 
-             font-family: 'Segoe UI',sans-serif; 
-             display: flex;
-              justify-content: center;
-               align-items: center; 
-               color: white;
-                } 
-                     
-                    h1
-                     { 
-                        font-size: 48px; margin-bottom: 20px; 
-                        }
-                         a { padding: 10px 20px;
-                          margin: 10px;
-                           background-color: crimson;
-                            color: rgb(0, 0, 0); text-decoration: none;
-                             border-radius: 8px;
-                              font-weight: bold;
-                               } 
-                               a:hover { background-color: darkred; 
-                               }
- body { margin: 0;
-   background-image: url("{{ url_for('static', filename='landing.jpg') }}"); 
-   background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-     height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
-       display: flex; 
-       justify-content: center;
-        align-items: center; 
-        color: white; } 
-        
-                                </style>
-                                 </head> 
-                                 <body> 
-                                    <div class="container"> 
-                                        <a href="{{ url_for('signup') }}">
-                                               <button style="background-color: transparent; color: white; border: none;">Create Account</button>
-                                               </a>
-                                               <a href="{{ url_for('signin') }}">
-<button style="background-color: transparent; color: white; border: none;">Login</button>
-                                               </a>
-                                         </div>
-                                         </body>
-                                          </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: url("/static/images/landing.png");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .buttons button {
+            padding: 15px 25px;
+            font-size: 16px;
+            color: white;
+            background-color: #d8133f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .buttons button:hover {
+            background-color: #b11035;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons">
+        <button>Create Account</button>
+        <button>Login</button>
+    </div>
+</body>
+</html>
