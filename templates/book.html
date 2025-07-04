@@ -34,7 +34,7 @@
 </head>
 <body>
     <h1>🎟️ Book Ticket</h1>
-    <form action='/book' method="POST">
+    <form action="{{ url_for('book', movie_id=movie_id, showtime=showtime) }}" method="POST">
   <label for="seat">Enter Seat Number :</label>
   <input type="text" id="seat" name="seat" required>
   <button type="submit" class="btn btn-danger mt-2">Book Now</button>
