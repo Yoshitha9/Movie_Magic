@@ -5,8 +5,8 @@ import uuid
 app = Flask(__name__)
 
 # AWS Configuration
-aws_region = 'us-east-1'  # Replace with your region
-sns_topic_arn = 'arn:aws:sns:us-east-1:577638351818:movies'  # Replace with your SNS Topic
+aws_region = 'us-east-1'
+sns_topic_arn = 'arn:aws:sns:us-east-1:577638351818:movies'
 
 # Initialize AWS Services
 dynamodb = boto3.resource('dynamodb', region_name=aws_region)
@@ -14,10 +14,9 @@ sns = boto3.client('sns', region_name=aws_region)
 
 # DynamoDB Tables
 users_table = dynamodb.Table('Users')
-movies_table = dynamodb.Table('Movies')
 bookings_table = dynamodb.Table('Bookings')
 
-
+# Local Movie Data (used instead of DynamoDB Movies table)
 sample_movies = [
     {
         "id": 1,
@@ -63,9 +62,7 @@ sample_movies = [
     }
 ]
 
-
-
-# Send Booking Confirmation via SNS
+# SNS Function
 def send_booking_email(email, movie, showtime, seat, booking_id):
     message = f"""
 🎟 Booking Confirmed!
@@ -130,23 +127,21 @@ def index():
 
 @app.route('/movies')
 def movies():
-    response = movies_table.scan()
-    movies = response.get('Items', [])
-    return render_template("movies.html", movies=movies)
+    return render_template("movies.html", movies=sample_movies)
 
 @app.route('/book/<int:movie_id>/<showtime>', methods=['GET', 'POST'])
 def book(movie_id, showtime):
+    # Lookup movie from local sample_movies
+    movie = next((m for m in sample_movies if m['id'] == movie_id), None)
+    if not movie:
+        return "❌ Movie not found."
+
     if request.method == 'POST':
         seat_input = request.form['seat']
         seat_list = [s.strip() for s in seat_input.split(',') if s.strip()]
         num_tickets = len(seat_list)
         ticket_price = 150
         total = num_tickets * ticket_price
-
-        movie_response = movies_table.get_item(Key={'id': str(movie_id)})
-        movie = movie_response.get('Item')
-        if not movie:
-            return "❌ Movie not found."
 
         booking_id = str(uuid.uuid4())
 
@@ -161,7 +156,6 @@ def book(movie_id, showtime):
             'total_amount': total
         })
 
-        # Send SNS notification (optional email not used directly here)
         send_booking_email("booking@moviemagic.com", movie['title'], showtime, seat_input, booking_id)
 
         return render_template(
@@ -183,4 +177,4 @@ def mybookings():
     return render_template("mybookings.html", bookings=bookings)
 
 if __name__ == '__main__':
-    app.run(port=5000,host='0.0.0.0',debug=True)
+    app.run(port=5000, host='0.0.0.0', debug=True)
