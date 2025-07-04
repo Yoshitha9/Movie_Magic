@@ -1,14 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import boto3
 import uuid
 
 app = Flask(__name__)
+app.secret_key = 'your-secret-key'  # Replace with a secure key
 
 # AWS Configuration
 aws_region = 'us-east-1'
 sns_topic_arn = 'arn:aws:sns:us-east-1:577638351818:movies'
 
-# Initialize AWS Services
+# Initialize AWS services
 dynamodb = boto3.resource('dynamodb', region_name=aws_region)
 sns = boto3.client('sns', region_name=aws_region)
 
@@ -16,7 +17,7 @@ sns = boto3.client('sns', region_name=aws_region)
 users_table = dynamodb.Table('Users')
 bookings_table = dynamodb.Table('Bookings')
 
-# Local Movie Data (used instead of DynamoDB Movies table)
+# Movie list hardcoded
 sample_movies = [
     {
         "id": 1,
@@ -62,7 +63,7 @@ sample_movies = [
     }
 ]
 
-# SNS Function
+# SNS email notification
 def send_booking_email(email, movie, showtime, seat, booking_id):
     message = f"""
 🎟 Booking Confirmed!
@@ -81,8 +82,9 @@ Thank you for booking with us!
             Subject="Your Movie Ticket Booking Confirmation"
         )
     except Exception as e:
-        print(f"❌ SNS publish failed: {e}")
+        print("SNS Error:", e)
 
+# Routes
 @app.route('/')
 def landing():
     return render_template("landing.html")
@@ -96,7 +98,7 @@ def signup():
 
         existing_user = users_table.get_item(Key={'email': email})
         if 'Item' in existing_user:
-            return "⚠️ Account with this email already exists. Please sign in or use a different email."
+            return "⚠️ Account with this email already exists. Please sign in."
 
         users_table.put_item(Item={
             'email': email,
@@ -112,10 +114,9 @@ def signin():
         email = request.form['email']
         password = request.form['password']
 
-        response = users_table.get_item(Key={'email': email})
-        user = response.get('Item')
-
+        user = users_table.get_item(Key={'email': email}).get('Item')
         if user and user['password'] == password:
+            session['email'] = email
             return redirect(url_for('index'))
         else:
             return "Invalid email or password"
@@ -131,8 +132,7 @@ def movies():
 
 @app.route('/book/<int:movie_id>/<showtime>', methods=['GET', 'POST'])
 def book(movie_id, showtime):
-    # Lookup movie from local sample_movies
-    movie = next((m for m in sample_movies if m['id'] == movie_id), None)
+    movie = next((m for m in sample_movies if m["id"] == movie_id), None)
     if not movie:
         return "❌ Movie not found."
 
@@ -142,10 +142,12 @@ def book(movie_id, showtime):
         num_tickets = len(seat_list)
         ticket_price = 150
         total = num_tickets * ticket_price
-
         booking_id = str(uuid.uuid4())
 
+        email = session.get('email', 'guest@example.com')  # Fallback
+
         bookings_table.put_item(Item={
+            'email': email,
             'booking_id': booking_id,
             'movie_id': movie_id,
             'movie_title': movie['title'],
@@ -156,7 +158,7 @@ def book(movie_id, showtime):
             'total_amount': total
         })
 
-        send_booking_email("booking@moviemagic.com", movie['title'], showtime, seat_input, booking_id)
+        send_booking_email(email, movie['title'], showtime, seat_input, booking_id)
 
         return render_template(
             "confirmation.html",
@@ -172,9 +174,15 @@ def book(movie_id, showtime):
 
 @app.route('/mybookings')
 def mybookings():
+    email = session.get('email')
+    if not email:
+        return "Please log in to view your bookings."
+
     response = bookings_table.scan()
-    bookings = response.get('Items', [])
-    return render_template("mybookings.html", bookings=bookings)
+    all_bookings = response.get('Items', [])
+    user_bookings = [b for b in all_bookings if b['email'] == email]
+
+    return render_template("mybookings.html", bookings=user_bookings)
 
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0', debug=True)
