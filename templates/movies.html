@@ -8,107 +8,146 @@
             color: #fff;
             font-family: Arial, sans-serif;
         }
-        .movie {
-            background: #222;
+        .movies-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .current-movie {
+            background-color: #222;
             margin: 20px;
             padding: 15px;
             border-radius: 10px;
+            width: 250px;
+            text-align: center;
         }
-        img {
-            width: 200px;
-            height: auto;
-            border-radius: 5px;
-        }
-        a {
-            background-color: #f04;
-            padding: 8px 15px;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        } 
-        .book-button {
-            background-color: #e50914;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            margin: 5px;
+        .cm-img-box img {
+            width: 100%;
             border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
         }
-        .book-button:hover {
+        .movie-title {
+            margin: 10px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .screen-name {
+            font-size: 14px;
+            color: #bbb;
+        }
+        .price {
+            font-size: 18px;
+            color: #0f0;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #e50914;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+        .btn:hover {
             background-color: #c40812;
         }
     </style>
 </head>
 <body>
-    <h1>🎥 Now Showing</h1>
-    <div id="movie-list"></div>
+    <h1 style="text-align:center;">🎥 Now Showing</h1>
+    <div class="movies-container">
 
-    <script>
-        const sample_movies = [
-            {
-                "id": 1,
-                "title": "GENTELMEN",
-                "language": "Telugu",
-                "poster_url": "/static/gentelmen.jpg",
-                "showtimes": ["11:00 AM", "2:00 PM", "5:00 PM"]
-            },
-            {
-                "id": 2,
-                "title": "MAZAKA",
-                "language": "Telugu",
-                "poster_url": "/static/mazaka.jpeg",
-                "showtimes": ["10:30 AM", "1:30 PM", "4:30 PM"]
-            },
-            {
-                "id": 3,
-                "title": "MUNNA",
-                "language": "Telugu",
-                "poster_url": "/static/munna.jpg",
-                "showtimes": ["11:30 AM", "2:30 PM", "6:30 PM"]
-            },
-            {
-                "id": 4,
-                "title": "AKASHAM LO OKA THARA",
-                "language": "Telugu",
-                "poster_url": "/static/akashamlookathara.jpeg",
-                "showtimes": ["10:00 AM", "1:00 PM", "4:00 PM"]
-            },
-            {
-                "id": 5,
-                "title": "BUSINESSMAN",
-                "language": "Telugu",
-                "poster_url": "/static/businessman.jpeg",
-                "showtimes": ["12:00 PM", "3:00 PM", "6:00 PM"]
-            },
-            {
-                "id": 6,
-                "title": "COURT: STATE VS A NOBODY",
-                "language": "Telugu",
-                "poster_url": "/static/Court_-_State_Vs_A_Nobody.jpg",
-                "showtimes": ["2:00 PM", "5:00 PM", "8:00 PM"]
-            }
-        ];
+        <!-- Movie 1 -->
+        <div class="current-movie">
+            <div class="cm-img-box">
+                <img src="{{ url_for('static', filename='images/gentelmen.jpg') }}" alt="Gentelmen">
+            </div>
+            <h3 class="movie-title">GENTELMEN</h3>
+            <p class="screen-name">Language: Telugu</p>
+            <div class="booking">
+                <h2 class="price">₹150</h2>
+                <a href="{{ url_for('book', movie_id=1, showtime='11:00 AM') }}" class="btn">11:00 AM</a>
+                <a href="{{ url_for('book', movie_id=1, showtime='2:00 PM') }}" class="btn">2:00 PM</a>
+                <a href="{{ url_for('book', movie_id=1, showtime='5:00 PM') }}" class="btn">5:00 PM</a>
+            </div>
+        </div>
 
-        const container = document.getElementById("movie-list");
+        <!-- Movie 2 -->
+        <div class="current-movie">
+            <div class="cm-img-box">
+                <img src="{{ url_for('static', filename='images/mazaka.jpeg') }}" alt="Mazaka">
+            </div>
+            <h3 class="movie-title">MAZAKA</h3>
+            <p class="screen-name">Language: Telugu</p>
+            <div class="booking">
+                <h2 class="price">₹150</h2>
+                <a href="{{ url_for('book', movie_id=2, showtime='10:30 AM') }}" class="btn">10:30 AM</a>
+                <a href="{{ url_for('book', movie_id=2, showtime='1:30 PM') }}" class="btn">1:30 PM</a>
+                <a href="{{ url_for('book', movie_id=2, showtime='4:30 PM') }}" class="btn">4:30 PM</a>
+            </div>
+        </div>
 
-        sample_movies.forEach(movie => {
-            const div = document.createElement("div");
-            div.className = "movie";
-            div.innerHTML = `
-                <h2>${movie.title}</h2>
-                <img src="${movie.poster_url}" alt="Poster">
-                <p>Language: ${movie.language}</p>
-                <p>Showtimes:</p>
-                <ul>
-                    ${movie.showtimes.map(show =>
-                        `<li><a href="/book/${movie.id}/${encodeURIComponent(show)}" class="book-button">Book for ${show}</a></li>`
-                    ).join('')}
-                </ul>
-            `;
-            container.appendChild(div);
-        });
-    </script>
+        <!-- Movie 3 -->
+        <div class="current-movie">
+            <div class="cm-img-box">
+                <img src="{{ url_for('static', filename='images/munna.jpg') }}" alt="Munna">
+            </div>
+            <h3 class="movie-title">MUNNA</h3>
+            <p class="screen-name">Language: Telugu</p>
+            <div class="booking">
+                <h2 class="price">₹150</h2>
+                <a href="{{ url_for('book', movie_id=3, showtime='11:30 AM') }}" class="btn">11:30 AM</a>
+                <a href="{{ url_for('book', movie_id=3, showtime='2:30 PM') }}" class="btn">2:30 PM</a>
+                <a href="{{ url_for('book', movie_id=3, showtime='6:30 PM') }}" class="btn">6:30 PM</a>
+            </div>
+        </div>
+
+        <!-- Movie 4 -->
+        <div class="current-movie">
+            <div class="cm-img-box">
+                <img src="{{ url_for('static', filename='images/akashamlookathara.jpeg') }}" alt="Akasham lo oka thara">
+            </div>
+            <h3 class="movie-title">AKASHAM LO OKA THARA</h3>
+            <p class="screen-name">Language: Telugu</p>
+            <div class="booking">
+                <h2 class="price">₹150</h2>
+                <a href="{{ url_for('book', movie_id=4, showtime='10:00 AM') }}" class="btn">10:00 AM</a>
+                <a href="{{ url_for('book', movie_id=4, showtime='1:00 PM') }}" class="btn">1:00 PM</a>
+                <a href="{{ url_for('book', movie_id=4, showtime='4:00 PM') }}" class="btn">4:00 PM</a>
+            </div>
+        </div>
+
+        <!-- Movie 5 -->
+        <div class="current-movie">
+            <div class="cm-img-box">
+                <img src="{{ url_for('static', filename='images/businessman.jpeg') }}" alt="Businessman">
+            </div>
+            <h3 class="movie-title">BUSINESSMAN</h3>
+            <p class="screen-name">Language: Telugu</p>
+            <div class="booking">
+                <h2 class="price">₹150</h2>
+                <a href="{{ url_for('book', movie_id=5, showtime='12:00 PM') }}" class="btn">12:00 PM</a>
+                <a href="{{ url_for('book', movie_id=5, showtime='3:00 PM') }}" class="btn">3:00 PM</a>
+                <a href="{{ url_for('book', movie_id=5, showtime='6:00 PM') }}" class="btn">6:00 PM</a>
+            </div>
+        </div>
+
+        <!-- Movie 6 -->
+        <div class="current-movie">
+            <div class="cm-img-box">
+                <img src="{{ url_for('static', filename='images/Court_-_State_Vs_A_Nobody.jpg') }}" alt="Court">
+            </div>
+            <h3 class="movie-title">COURT: STATE VS A NOBODY</h3>
+            <p class="screen-name">Language: Telugu</p>
+            <div class="booking">
+                <h2 class="price">₹150</h2>
+                <a href="{{ url_for('book', movie_id=6, showtime='2:00 PM') }}" class="btn">2:00 PM</a>
+                <a href="{{ url_for('book', movie_id=6, showtime='5:00 PM') }}" class="btn">5:00 PM</a>
+                <a href="{{ url_for('book', movie_id=6, showtime='8:00 PM') }}" class="btn">8:00 PM</a>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>
+
