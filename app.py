@@ -16,7 +16,7 @@ sns = boto3.client('sns', region_name=aws_region)
 # DynamoDB Tables
 users_table = dynamodb.Table('Users')
 bookings_table = dynamodb.Table('Bookings')
-
+#Static movie list (images should be inside static/images/)
 # Static movie list (no Movies table needed)
 sample_movies = [
     {
