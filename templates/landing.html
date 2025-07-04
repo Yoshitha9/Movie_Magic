@@ -1,43 +1,36 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Login Page</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            background-image: url("/static/images/landing.png");
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<html> 
+    <head>
+        <title>Login Page</title>
+        <style> 
+            body { margin: 0; height: 100vh; background-image: url("{{ url_for('static', filename='images/landing.jpg') }}");
+                  background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; }
 
-        .buttons {
-            display: flex;
-            gap: 20px;
-        }
+    .buttons {
+        display: flex;
+        gap: 20px;
+    }
 
-        .buttons button {
-            padding: 15px 25px;
-            font-size: 16px;
-            color: white;
-            background-color: #d8133f;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    .buttons button {
+        padding: 15px 25px;
+        font-size: 16px;
+        color: white;
+        background-color: #d8133f;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 
-        .buttons button:hover {
-            background-color: #b11035;
-        }
-    </style>
+    .buttons button:hover {
+        background-color: #b11035;
+    }
+</style>
 </head>
-<body>
-    <div class="buttons">
-        <button>Create Account</button>
-        <button>Login</button>
-    </div>
-</body>
+    <body>
+        <div class="buttons">
+            <a href="{{ url_for('signup') }}">
+                <button>Create Account</button></a>
+            <a href="{{ url_for('signin') }}"><button>Login</button></a>
+        </div> 
+    </body> 
 </html>
