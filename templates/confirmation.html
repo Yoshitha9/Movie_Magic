@@ -28,24 +28,16 @@
   </style>
 </head>
 <body>
-  <div class="confirmation-box">
-    <h2>✅ Booking Confirmed!</h2>
-
-    {% if movie.poster_url %}
-  <img src="{{ url_for('static', filename=movie.poster_url) }}" alt="{{ movie.title }}">
-{% endif %}
-
-
-    <p><strong>🎬 Movie:</strong> {{ movie.title }}</p>
-    <p><strong>🏢 Theatre:</strong> Movie Magic Cinemas</p>
-    <p><strong>🕓 Showtime:</strong> {{ showtime }}</p>
-    <p><strong>💺 Seat(s):</strong> {{ seat }}</p>
-    <p><strong>🎟 Tickets:</strong> {{ num_tickets }}</p>
-    <p><strong>💰 Price per Ticket:</strong> ₹{{ ticket_price }}</p>
-    <p><strong>📄 Total Amount:</strong> ₹{{ total }}</p>
-
-    <br>
-    <a href="{{ url_for('movies') }}">↩ Back to Movies</a>
+  <div style="text-align: center;">
+  <img src="{{ url_for('static', filename=movie.poster_url) }}" alt="{{ movie.title }}" width="200"> 
+    <h2>✅ Booking Confirmed!</h2> <p><strong>🎬 Movie:</strong> {{ movie.title }}</p> 
+    <p><strong>🏢 Theatre:</strong> Movie Magic Cinemas</p> 
+    <p><strong>🕒 Showtime:</strong> {{ showtime }}</p> 
+    <p><strong>💺 Seat(s):</strong> {{ seat }}</p> 
+    <p><strong>🎟 Tickets:</strong> {{ num_tickets }}</p> 
+    <p><strong>💰 Price per Ticket:</strong> ₹{{ ticket_price }}</p> 
+    <p><strong>📄 Total Amount:</strong> ₹{{ total }}</p> 
+    <a href="{{ url_for('movies') }}">🔁 Back to Movies</a>
   </div>
 </body>
 </html>
