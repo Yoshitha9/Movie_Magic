@@ -104,5 +104,87 @@ def signup():
         users_table.put_item(Item={
             'email': email,
             'username': username,
-            'password': passwor
+            'password': password
+        })
+        return redirect(url_for('signin'))
+    return render_template("signup.html")
+
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        user = users_table.get_item(Key={'email': email}).get('Item')
+        if user and user['password'] == password:
+            session['email'] = email
+            return redirect(url_for('index'))
+        else:
+            return "Invalid email or password"
+    return render_template("signin.html")
+
+@app.route('/home')
+def index():
+    return render_template("index.html")
+
+@app.route('/movies')
+def movies():
+    return render_template("movies.html", movies=sample_movies)
+
+@app.route('/book/<int:movie_id>/<showtime>', methods=['GET', 'POST'])
+def book(movie_id, showtime):
+    movie = next((m for m in sample_movies if m["id"] == movie_id), None)
+    if not movie:
+        return "❌ Movie not found."
+
+    if request.method == 'POST':
+        seat_input = request.form['seat']
+        seat_list = [s.strip() for s in seat_input.split(',') if s.strip()]
+        num_tickets = len(seat_list)
+        ticket_price = 150
+        total = num_tickets * ticket_price
+        booking_id = str(uuid.uuid4())
+
+        email = session.get('email', 'guest@example.com')
+
+        bookings_table.put_item(Item={
+            'email': email,
+            'booking_id': booking_id,
+            'movie_id': movie_id,
+            'movie_title': movie['title'],
+            'showtime': showtime,
+            'seats': seat_list,
+            'num_tickets': num_tickets,
+            'price_per_ticket': ticket_price,
+            'total_amount': total
+        })
+
+        send_booking_email(email, movie['title'], showtime, seat_input, booking_id)
+
+        return render_template(
+            "confirmation.html",
+            movie=movie,
+            showtime=showtime,
+            seat=seat_input,
+            ticket_price=ticket_price,
+            total=total,
+            num_tickets=num_tickets
+        )
+
+    return render_template("book.html", movie_id=movie_id, showtime=showtime)
+
+@app.route('/mybookings')
+def mybookings():
+    email = session.get('email')
+    if not email:
+        return "Please log in to view your bookings."
+
+    response = bookings_table.scan()
+    all_bookings = response.get('Items', [])
+    user_bookings = [b for b in all_bookings if b['email'] == email]
+
+    return render_template("mybookings.html", bookings=user_bookings)
+
+if __name__ == '__main__':
+    app.run(port=5000, host='0.0.0.0', debug=True)
 
