@@ -143,7 +143,7 @@ def book(movie_id, showtime):
         ticket_price = 150
         total = num_tickets * ticket_price
 
-        movie_response = movies_table.get_item(Key={'id': movie_id})
+        movie_response = movies_table.get_item(Key={'id': str(movie_id)})
         movie = movie_response.get('Item')
         if not movie:
             return "❌ Movie not found."
