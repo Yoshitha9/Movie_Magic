@@ -8,26 +8,41 @@
       color: white;
       font-family: Arial, sans-serif;
     }
-    .card {
-      max-width: 500px;
-      margin: 100px auto;
+    .confirmation-box {
       background: #222;
-      padding: 30px;
+      width: 500px;
+      margin: 80px auto;
+      padding: 25px;
       border-radius: 10px;
+      text-align: center;
     }
-    a { color: #ccc; }
+    img {
+      width: 250px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    a {
+      color: lightblue;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="confirmation-box">
     <h2>✅ Booking Confirmed!</h2>
-    <p>🎬 <strong>Movie:</strong> {{ movie.title }}</p>
-    <p>🏢 <strong>Theatre:</strong> Movie Magic Cinemas</p>
-    <p>🕒 <strong>Showtime:</strong> {{ showtime }}</p>
-    <p>💺 <strong>Seat(s):</strong> {{ seat }}</p>
-    <p>🎫 <strong>Tickets:</strong> {{ num_tickets }}</p>
-    <p>💰 <strong>Price per Ticket:</strong> ₹{{ ticket_price }}</p>
-    <p>📄 <strong>Total Amount:</strong> ₹{{ total }}</p>
+
+    {% if movie.poster_url %}
+      <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+    {% endif %}
+
+    <p><strong>🎬 Movie:</strong> {{ movie.title }}</p>
+    <p><strong>🏢 Theatre:</strong> Movie Magic Cinemas</p>
+    <p><strong>🕓 Showtime:</strong> {{ showtime }}</p>
+    <p><strong>💺 Seat(s):</strong> {{ seat }}</p>
+    <p><strong>🎟 Tickets:</strong> {{ num_tickets }}</p>
+    <p><strong>💰 Price per Ticket:</strong> ₹{{ ticket_price }}</p>
+    <p><strong>📄 Total Amount:</strong> ₹{{ total }}</p>
+
     <br>
     <a href="{{ url_for('movies') }}">↩ Back to Movies</a>
   </div>
